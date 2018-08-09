@@ -56,7 +56,7 @@ admin_flag = 0
 op_white = 0
 op_yellow = 0
 
-CONF_PATH = "/opt/mcs/bin/program_config.txt"
+CONF_PATH = "/opt/mcs/conf/program_config.txt"
 
 
 def send_command(message):
