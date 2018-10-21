@@ -1,0 +1,11 @@
+FFC number, GPIO pin, GPIO name, led color, icon name
+1,          39,       GND         
+2,          37,       26,        RED,       admin mode indicator
+3,          35,       19,        GREEN,     power on indicator
+4,          33,       13,        YELLOW,    admin btn press status
+5,          31,       6,         ORANGE,    cloud connect btn press statue
+6,          29,       5,         BLUE,      cloud connection
+7,          17,       3v3
+8,          15,       22,        ,          power btn           
+9,          13,       27,        ,          admin btn
+10,         11,       17,        ,          cloud connect btn

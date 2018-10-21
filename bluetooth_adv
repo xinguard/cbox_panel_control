@@ -1,0 +1,3 @@
+sudo hciconfig hci0 piscan
+sudo sdptool add SP
+
