@@ -14,7 +14,7 @@
 case "$1" in
   start)
     echo "Starting pwr-and-control-button-monitor"
-    /opt/mcs/bin/admin_pwr >/dev/null &
+    /opt/mcs/cbox_panel_control/bin/admin_pwr >/dev/null &
     ;;
   stop)
     echo "Stopping pwr-and-control-button-monitor"
@@ -29,7 +29,7 @@ case "$1" in
     if [ $PID ]; then
       kill -HUP $PID
     fi
-    /opt/mcs/bin/admin_pwr >/dev/null &
+    /opt/mcs/cbox_panel_control/bin/admin_pwr >/dev/null &
     ;;
   status)
     PID=`ps ax | grep admin_pwr | grep -v grep | awk '{print $1}'`
