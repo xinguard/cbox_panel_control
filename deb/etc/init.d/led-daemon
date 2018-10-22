@@ -14,7 +14,7 @@
 case "$1" in
   start)
     echo "Starting led-daemon"
-    /opt/mcs/bin/cbox_panel_control/led_listen >/dev/null &
+    /opt/mcs/cbox_panel_control/bin/led_listen >/dev/null &
     ;;
   stop)
     echo "Stopping led-daemon"
