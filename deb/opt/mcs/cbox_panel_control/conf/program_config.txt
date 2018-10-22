@@ -1,0 +1,6 @@
+admin_index: program_index: command
+1:           2:             echo 'program1/2'
+#SI:          B37_1:         echo 'MCSC_start'
+#SI:          B37_0:         echo 'MCSC_stop'
+#SI:          B35_1:         echo 'ADMIN_start'
+#SI:          B35_0:         echo 'ADMIN_stop'

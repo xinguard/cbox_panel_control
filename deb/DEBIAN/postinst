@@ -1,0 +1,4 @@
+#!/bin/bash
+
+update-rc.d pwr-and-control-button-monitor defaults
+update-rc.d led-daemon defaults
