@@ -154,11 +154,11 @@ def run_mcsc(type):
     if not command_list:
         # run standard command here.
         if type == "start":
-            subprocess.call(['/root/MCS/bin/tnlctl.sh', 'start'], shell=False)
+            subprocess.call(['/opt/mcs/tnlctl/bin/tnlctl.sh', 'start'], shell=False)
             print "MCS Cloud connect......."
             syslog.syslog(syslog.LOG_INFO, "MCS cloud connect.")
         elif type == "stop":
-            subprocess.call(['/root/MCS/bin/tnlctl.sh', 'stop'], shell=False)
+            subprocess.call(['/opt/mcs/tnlctl/bin/tnlctl.sh', 'stop'], shell=False)
             print "MCS Cloud disconnect......."
             syslog.syslog(syslog.LOG_INFO, "MCS cloud disconnect.")
     else:
