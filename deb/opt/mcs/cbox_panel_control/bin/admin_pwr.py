@@ -21,8 +21,8 @@ if (hardware == "BCM2835"):
     # ADMIN_BUTTON_PIN = 35
     # MCSC_BUTTON_PIN = 37
     # new circult board setup
-    POWER_BUTTON_PIN = 13
-    ADMIN_BUTTON_PIN = 15
+    POWER_BUTTON_PIN = 15
+    ADMIN_BUTTON_PIN = 13
     MCSC_BUTTON_PIN = 11
 elif (hardware == "sun8iw11p1"):
     GPIO.setmode(GPIO.BOARD)

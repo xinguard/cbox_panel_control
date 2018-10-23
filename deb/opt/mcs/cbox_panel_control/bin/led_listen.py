@@ -26,10 +26,10 @@ if (hardware == "BCM2835"):
     # BLUE_LED_PIN = 13
     # RED_LED_PIN = 15
     # new circuit board setup
-    YELLOW_LED_PIN = 35
-    WHITE_LED_PIN = 33
-    POWER_LED_PIN = 29
-    BLUE_LED_PIN = 31
+    YELLOW_LED_PIN = 33
+    WHITE_LED_PIN = 31
+    POWER_LED_PIN = 35
+    BLUE_LED_PIN = 29
     RED_LED_PIN = 37
 elif (hardware == "sun8iw11p1"):
     GPIO.setmode(GPIO.BOARD)
