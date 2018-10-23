@@ -159,6 +159,7 @@ def run_mcsc(type):
             syslog.syslog(syslog.LOG_INFO, "MCS cloud connect.")
         elif type == "stop":
             subprocess.call(['/opt/mcs/tnlctl/bin/tnlctl.sh', 'stop'], shell=False)
+            subprocess.call(['/opt/mcs/submods/proxy/scripts/ctl.sh', 'stop'], shell=False)
             print "MCS Cloud disconnect......."
             syslog.syslog(syslog.LOG_INFO, "MCS cloud disconnect.")
     else:
