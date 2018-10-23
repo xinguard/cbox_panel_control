@@ -355,13 +355,15 @@ def run_admin(type):
 
     if not command_list:
         # run standard command here.
+        print type
         if type == "start":
-            subprocess.call(['service', ' btconsole', 'start'],
-                            shell=False)
+            #subprocess.call(['python', '/opt/mcs/cbox_panel_control/bin/led_bt_server.py'],
+            #                shell=False)
+            os.system('/opt/mcs/cbox_panel_control/bin/led_bt_server.py')
             print "Bluetooth console enable"
             syslog.syslog(syslog.LOG_INFO, "Bluetooth console enable.")
         elif type == "stop":
-            subprocess.call(['service', ' btconsole', 'stop'], shell=False)
+            #subprocess.call(['ps -ef | grep led_bt_server | grep -v grep |awk \'{print "kill "$2}\' | bash'], shell=True)
             print "Bluetooth console disable"
             syslog.syslog(syslog.LOG_INFO, "Bluetooth console disable.")
     else:
