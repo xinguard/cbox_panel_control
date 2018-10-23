@@ -1,3 +1,3 @@
 #! /bin/bash
 apt-get update
-apt-get -y install tnctl cbox-panel-control
+apt-get -y install tnlctl cbox-panel-control
