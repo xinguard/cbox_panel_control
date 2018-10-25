@@ -77,8 +77,15 @@ try:
                     print >>sys.stderr, 'sending "%s"' % message
                     client_socket.sendall(message)
                     message =''
+		elif data[0:4] == 'acti':
+                    print('activate')
+                    # Send data
+                    message = subprocess.check_output(['/opt/mcs/tnlctl/bin/api/reg/v1/activate.sh',data.split(':')[1],data.split(':')[2],data.split(':')[3],data.split(':')[4],data.split(':')[5]])
+                    print >>sys.stderr, 'sending "%s"' % message
+                    client_socket.sendall(message)
+                    message =''
                 elif data[0:4] == 'wifi':
-                    print data.split(':')    
+                    print data.split(':')
                     # Send data
                     message='echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\nupdate_config=1\ncountry=TW\nnetwork={\nssid=\\"'+data.split(':')[1]+'\\"\npsk=\\"'+data.split(':')[2]+'\\"\n}" > /etc/wpa_supplicant/wpa_supplicant.conf'
                     subprocess.call([message], shell=True)
