@@ -41,11 +41,6 @@ def getHalfMAC(interface='wlan0'):
     str = "000000"
   return str
 
-if not os.path.exists('/etc/machine-info'):
-    message='echo "PRETTY_HOSTNAME=PORTEX-'+getHalfMAC()+'" > /etc/machine-info'
-    #print message
-    subprocess.call([message], shell=True)
-    print >>sys.stderr, 'sending "%s"' % message
 os.system('service bluetooth start')
 time.sleep(2)
 subprocess.call(['/opt/mcs/cbox_panel_control/bin/bluetooth_adv'], shell=True)
@@ -97,6 +92,13 @@ try:
                     print >>sys.stderr, 'sending "%s"' % message
                     #client_socket.sendall(message)
                     message =''
+                    if not os.path.exists('/etc/machine-info'):
+                        message='echo "PRETTY_HOSTNAME=PORTEX-'+getHalfMAC()+'" > /etc/machine-info'
+                        #print message
+                        subprocess.call([message], shell=True)
+                        print >>sys.stderr, 'sending "%s"' % message
+                        time.sleep(1)
+
                     message = subprocess.check_output(['reboot'])
 
                     #message = subprocess.check_output(['systemctl daemon-reload'])
