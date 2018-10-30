@@ -11,12 +11,8 @@ from threading import Thread
 import socket
 import sys
 import syslog
- 
-
 
 server_address = '/var/run/uds_led'
-
-
 
 def send_command(message):
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
@@ -36,16 +32,25 @@ def send_command(message):
         print >>sys.stderr, 'closing socket'
         sock.close()
 
+def getHalfMAC(interface='wlan0'):
+  # Return the MAC address of the specified interface
+  try:
+    str = open('/sys/class/net/%s/address' %interface).read()
+    str = (str.split(':')[3]+str.split(':')[4]+str.split(':')[5]).upper().strip('\n')
+  except:
+    str = "000000"
+  return str
 
-
-
-
-
+if not os.path.exists('/etc/machine-info'):
+    message='echo "PRETTY_HOSTNAME=PORTEX-'+getHalfMAC()+'" > /etc/machine-info'
+    #print message
+    subprocess.call([message], shell=True)
+    print >>sys.stderr, 'sending "%s"' % message
+os.system('service bluetooth start')
+time.sleep(2)
 subprocess.call(['/opt/mcs/cbox_panel_control/bin/bluetooth_adv'], shell=True)
 #print >>sys.stderr, 'sending "%s"' % message
 message = ''
-
-
 
 server_socket=BluetoothSocket(RFCOMM)
 server_socket.bind(("", PORT_ANY))

@@ -359,6 +359,7 @@ def run_admin(type):
         if type == "start":
             #subprocess.call(['python', '/opt/mcs/cbox_panel_control/bin/led_bt_server.py'],
             #                shell=False)
+            #os.system('service bluetooth start')
             os.system('/opt/mcs/cbox_panel_control/bin/led_bt_server.py')
             print "Bluetooth console enable"
             syslog.syslog(syslog.LOG_INFO, "Bluetooth console enable.")
