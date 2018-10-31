@@ -249,9 +249,9 @@ def connection_thread(client, address):
 def startup_led():
     global blink_green_status
     blink_green_status = True
-    time.sleep(8)
-    blink_green_status = False
-    GPIO.output(POWER_LED_PIN, GPIO.HIGH)
+    #time.sleep(8)
+    #blink_green_status = False
+    #GPIO.output(POWER_LED_PIN, GPIO.HIGH)
     return
 
 
