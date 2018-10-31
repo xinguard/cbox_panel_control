@@ -360,11 +360,13 @@ def run_admin(type):
             #subprocess.call(['python', '/opt/mcs/cbox_panel_control/bin/led_bt_server.py'],
             #                shell=False)
             #os.system('service bluetooth start')
-            os.system('/opt/mcs/cbox_panel_control/bin/led_bt_server.py')
+            os.system('/opt/mcs/cbox_panel_control/bin/led_bt_server.py > /dev/null &')
             print "Bluetooth console enable"
             syslog.syslog(syslog.LOG_INFO, "Bluetooth console enable.")
         elif type == "stop":
-            #subprocess.call(['ps -ef | grep led_bt_server | grep -v grep |awk \'{print "kill "$2}\' | bash'], shell=True)
+            subprocess.call(['ps -ef | grep led_bt_server | grep -v grep |awk \'{print "kill "$2}\' | bash'], shell=True)
+            os.system('service bluetooth stop')
+            send_command("return_to_operation")
             print "Bluetooth console disable"
             syslog.syslog(syslog.LOG_INFO, "Bluetooth console disable.")
     else:
@@ -412,11 +414,13 @@ try:
                 continue
 
             if op_yellow == 1:
+                print "yellow_off"
                 send_command("yellow_off")
                 op_yellow = 0
                 # time.sleep(3)
                 run_admin("stop")
             else:
+                print "yellow on"
                 send_command("yellow_on")
                 op_yellow = 1
                 # time.sleep(2)

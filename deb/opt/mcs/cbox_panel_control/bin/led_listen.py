@@ -67,6 +67,7 @@ blink_admin3_status = False
 
 # mode of admin_pwr.py, 0 for operation, 1 for all others
 mode = 0
+btmode = 0
 
 
 def connection_thread(client, address):
@@ -143,20 +144,22 @@ def connection_thread(client, address):
                     blink_BLUE_status = True
             if data == "red_on":
                 op_red = 1
-                if mode == 0:
+                if mode == 0 and btmode==0:
                     blink_red_status = False
                     GPIO.output(RED_LED_PIN, GPIO.HIGH)
             elif data == "red_off":
                 op_red = 0
-                if mode == 0:
+                if mode == 0 and btmode==0:
                     blink_red_status = False
                     GPIO.output(RED_LED_PIN, GPIO.LOW)
             elif data == "red_blink":
-                op_red = 2
-                if mode == 0:
+                #op_red = 2
+                if btmode == 1:
                     blink_red_status = True
             elif data == "return_to_operation":
                 return_to_operation()
+            elif data == "return_to_bluetooth":
+                return_to_bluetooth()
             elif data == "return_to_admin":
                 return_to_admin()
             elif data == "go_to_admin1":
@@ -272,6 +275,7 @@ def return_to_operation():
     blink_admin_status = False
     blink_admin3_status = False
     mode = 0
+    btmode = 0
 
     if op_green == 1:
         GPIO.output(POWER_LED_PIN, GPIO.HIGH)
@@ -309,6 +313,12 @@ def return_to_operation():
         GPIO.output(YELLOW_LED_PIN, GPIO.LOW)
 
     return
+
+def return_to_bluetooth():
+    global btmode
+    btmode = 1
+    return
+
 
 
 def return_to_admin():

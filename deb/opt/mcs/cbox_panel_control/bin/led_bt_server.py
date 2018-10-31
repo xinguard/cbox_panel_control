@@ -43,6 +43,9 @@ def getHalfMAC(interface='wlan0'):
 
 os.system('service bluetooth start')
 time.sleep(2)
+send_command("return_to_bluetooth")
+send_command("red_blink")
+
 subprocess.call(['/opt/mcs/cbox_panel_control/bin/bluetooth_adv'], shell=True)
 #print >>sys.stderr, 'sending "%s"' % message
 message = ''
@@ -76,8 +79,8 @@ try:
                     message = subprocess.check_output(['/opt/mcs/tnlctl/bin/helper/get-serial.sh'])
                     print >>sys.stderr, 'sending "%s"' % message
                     client_socket.sendall(message)
-                    message =''
-		elif data[0:4] == 'acti':
+                    message = ''
+                elif data[0:4] == 'acti':
                     print('activate')
                     # Send data
                     message = subprocess.check_output(['/opt/mcs/tnlctl/bin/api/reg/v1/activate.sh',data.split(':')[1],data.split(':')[2],data.split(':')[3],data.split(':')[4],data.split(':')[5]])
@@ -94,10 +97,10 @@ try:
                     message =''
                     if not os.path.exists('/etc/machine-info'):
                         message='echo "PRETTY_HOSTNAME=PORTEX-'+getHalfMAC()+'" > /etc/machine-info'
-                        #print message
+                        print message
                         subprocess.call([message], shell=True)
                         print >>sys.stderr, 'sending "%s"' % message
-                        time.sleep(1)
+                        time.sleep(3)
 
                     message = subprocess.check_output(['reboot'])
 

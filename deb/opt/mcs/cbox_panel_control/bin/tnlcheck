@@ -7,28 +7,32 @@ DATE=`date`
 echo $DATE
 
 LED_W=`echo -e "white_status\c" | nc -q 1 -U /var/run/uds_led`
-
-if  [ $LED_W = 'on' ]; then
-  echo "White LED is ON"
+LED_B=`echo -e "blue_status\c" | nc -q 1 -U /var/run/uds_led`
+if [ $LED_W = 'on' ] || [ $LED_B = 'on' ]; then
 PID=`ps ax | egrep "tunnel.xgds.net" | egrep -v grep | awk '{print $1}'`
 # echo $PID
 if [[ $PID ]]; then
-  echo "Tunnel exist." 
-  echo ""
+  echo "Tunnel exist."
+
+if [ $LED_B = 'off' ]; then 
   echo -e "blue_on\c" | nc -q 1 -U /var/run/uds_led
-else
-#  echo $DATE >>/home/pi/tnlchk.log
-#  echo "Restart Tunnel!" >>/home/pi/tnlchk.log
-  /opt/mcs/tnlctl/bin/tnlctl.sh stop
-  /opt/mcs/tnlctl/bin/tnlctl.sh start
-#  /home/pi/tns >>/home/pi/tnlchk.log
-  echo ""
-  echo -e "blue_off\c" | nc -q 1 -U /var/run/uds_led
 fi
 
 else
-  echo "White LED is off"
+
+if [ $LED_B = 'on' ]; then 
+  echo -e "blue_off\c" | nc -q 1 -U /var/run/uds_led
 fi
+
+  if [ $LED_W = 'on' ]; then
+    /opt/mcs/tnlctl/bin/tnlctl.sh stop
+    /opt/mcs/tnlctl/bin/tnlctl.sh start
+   #/home/pi/tunnel.xgds.net.sh &
+  fi
+fi
+
+fi
+
 
 sleep 3 
 done
