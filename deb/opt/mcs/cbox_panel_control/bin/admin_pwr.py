@@ -91,6 +91,10 @@ def power_callback(channel):
             if (pressed_time >= REBOOT_TIMER):
                 os.system('wall "Power button pressed for reboot...."')
                 send_command("green_blink")
+                subprocess.call(['/opt/mcs/tnlctl/bin/tnlctl.sh', 'stop'], shell=False)
+                subprocess.call(['/opt/mcs/submods/proxy/scripts/ctl.sh', 'stop'], shell=False)
+                print "MCS Cloud disconnect......."
+                syslog.syslog(syslog.LOG_INFO, "MCS cloud disconnect.")
                 os.system('shutdown -r now')
                 time.sleep(100)
                 return
@@ -102,6 +106,10 @@ def power_callback(channel):
         else:
             os.system('wall "Power button pressed for power off..."')
             send_command("green_blink")
+            subprocess.call(['/opt/mcs/tnlctl/bin/tnlctl.sh', 'stop'], shell=False)
+            subprocess.call(['/opt/mcs/submods/proxy/scripts/ctl.sh', 'stop'], shell=False)
+            print "MCS Cloud disconnect......."
+            syslog.syslog(syslog.LOG_INFO, "MCS cloud disconnect.")
             os.system('shutdown -h now')
             time.sleep(100)
     elif mode == 1:
