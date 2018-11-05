@@ -141,7 +141,7 @@ def connection_thread(client, address):
             elif data == "blue_blink":
                 op_blue = 2
                 if mode == 0:
-                    blink_BLUE_status = True
+                    blink_blue_status = True
             if data == "red_on":
                 op_red = 1
                 if mode == 0 and btmode==0:
@@ -228,12 +228,12 @@ def connection_thread(client, address):
                     break
                 client.sendall(message)
             elif data == "red_status":
-                if op_red == 0:
-                    message = "off"
+                if op_red == 2 or btmode == 1:
+                    message = "blink"
                 elif op_red == 1:
                     message = "on"
-                elif op_red == 2:
-                    message = "blink"
+                elif op_red == 0:
+                    message = "off"
                 else:
                     print "red op status error!"
                     break

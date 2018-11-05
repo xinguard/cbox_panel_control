@@ -27,10 +27,24 @@ def send_command(message):
         # Send data
         print >>sys.stderr, 'sending "%s"' % message
         sock.sendall(message)
+        
+        data = ''
+        if (message.find('status')!=-1):
+            amount_received = 0
+            amount_expected = 16
+    
+        
+        #while amount_received < amount_expected:
+            data = sock.recv(16)
+            amount_received += len(data)
+            #print >>sys.stderr, 'received "%s"' % data
+
+
 
     finally:
         print >>sys.stderr, 'closing socket'
         sock.close()
+        return data
 
 def getHalfMAC(interface='wlan0'):
   # Return the MAC address of the specified interface
@@ -45,6 +59,8 @@ os.system('service bluetooth start')
 time.sleep(2)
 send_command("return_to_bluetooth")
 send_command("red_blink")
+
+
 
 subprocess.call(['/opt/mcs/cbox_panel_control/bin/bluetooth_adv'], shell=True)
 #print >>sys.stderr, 'sending "%s"' % message
@@ -83,7 +99,7 @@ try:
                 elif data[0:4] == 'acti':
                     print('activate')
                     # Send data
-                    message = subprocess.check_output(['/opt/mcs/tnlctl/bin/api/reg/v1/activate.sh',data.split(':')[1],data.split(':')[2],data.split(':')[3],data.split(':')[4],data.split(':')[5]])
+                    message = 'info: activate\n'+subprocess.check_output(['/opt/mcs/tnlctl/bin/api/reg/v1/activate.sh',data.split(':')[1],data.split(':')[2],data.split(':')[3],data.split(':')[4],data.split(':')[5]])
                     print >>sys.stderr, 'sending "%s"' % message
                     client_socket.sendall(message)
                     message =''
@@ -116,8 +132,9 @@ try:
                 elif data[0:4] == 'clou':
                     print('cloud connect')
                     #GPIO.output(LED_PIN, GPIO.LOW) #-> send_command(message)
+                    message =''
                     try:
-                        subprocess.call(['/opt/mcs/tnlctl/bin/tnlctl.sh start'], shell=True)
+                        message = 'info: cloud\n'+ subprocess.check_output(['/opt/mcs/tnlctl/bin/tnlctl.sh', 'start'])
                     except Exception as e:
                         print("Command failed: {}".format(e))
                     print >>sys.stderr, 'sending "%s"' % message
@@ -133,11 +150,19 @@ try:
                     except Exception as e:
                         print("Command failed: {}".format(e))
                     try:
-                        message = subprocess.check_output(['apt-get', 'install', 'tnlctl', 'cbox-panel-control'])
+                        message = 'info: upgrade\n'+subprocess.check_output(['apt-get', 'install', 'tnlctl', 'cbox-panel-control'])
                     except Exception as e:
                         print("Command failed: {}".format(e))
                     print >>sys.stderr, 'sending "%s"' % message
                     client_socket.sendall(message)
+                elif data[0:4] == 'leds':
+                    #GPIO.output(LED_PIN, GPIO.HIGH) #-> send_command(message)
+                    print('leds')
+                    message = send_command("red_status")+','+send_command("blue_status")+','+send_command("white_status")+','+send_command("yellow_status")+','
+                    print >>sys.stderr, 'sending "%s"' % message
+                    client_socket.sendall(message)
+                    message = ''
+                
                 else:
                     print('known command: {}'.format(data))
         except IOError:
