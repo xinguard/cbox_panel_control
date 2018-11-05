@@ -112,9 +112,12 @@ try:
                     #client_socket.sendall(message)
                     message =''
                     if not os.path.exists('/etc/machine-info'):
-                        message='echo "PRETTY_HOSTNAME=PORTEX-'+getHalfMAC()+'" > /etc/machine-info'
-                        print message
-                        subprocess.call([message], shell=True)
+                        message='PRETTY_HOSTNAME=PORTEX-'+getHalfMAC()
+                        fo = open("/etc/machine-info", "w")
+                        fo.write(message)
+                        fo.close()
+                        #print message
+                        #subprocess.call([message], shell=True)
                         print >>sys.stderr, 'sending "%s"' % message
                         time.sleep(3)
 
@@ -132,6 +135,7 @@ try:
                 elif data[0:4] == 'clou':
                     print('cloud connect')
                     #GPIO.output(LED_PIN, GPIO.LOW) #-> send_command(message)
+                    send_command("white_on")
                     message =''
                     try:
                         message = 'info: cloud\n'+ subprocess.check_output(['/opt/mcs/tnlctl/bin/tnlctl.sh', 'start'])
